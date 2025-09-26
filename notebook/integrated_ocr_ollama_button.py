@@ -13,8 +13,17 @@ import numpy as np
 from numpy.linalg import norm
 from io import BytesIO
 # Configure Tesseract & Poppler
-pytesseract.pytesseract.tesseract_cmd = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
-poppler_path = r"D:\\Release-25.07.0-0\\poppler-25.07.0\\Library\\bin"
+# Get Tesseract and Poppler paths from environment variables or default to None
+tesseract_cmd = os.environ.get("TESSERACT_CMD")
+poppler_path = os.environ.get("POPPLER_PATH")
+
+if tesseract_cmd:
+    pytesseract.pytesseract.tesseract_cmd = tesseract_cmd
+else:
+    st.warning("TESSERACT_CMD environment variable not set. OCR may not work.")
+
+if not poppler_path:
+    st.warning("POPPLER_PATH environment variable not set. PDF conversion may not work.")
 
 # App title
 st.set_page_config(page_title="📂 File Previewer", layout="wide")
