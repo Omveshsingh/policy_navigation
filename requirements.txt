@@ -1,0 +1,11 @@
+streamlit
+torch
+torchvision
+opencv-python-headless
+scikit-learn
+pandas
+numpy
+PyPDF2
+pdf2image
+scikit-image
+pytesseract
