@@ -9,3 +9,6 @@ PyPDF2
 pdf2image
 scikit-image
 pytesseract
+python-docx
+ollama
+faiss-cpu
