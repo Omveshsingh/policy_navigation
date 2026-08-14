@@ -1,3 +1,4 @@
+from vector_store import build_vector_store_faiss, search_similar_faiss
 import streamlit as st
 import pandas as pd
 import docx
@@ -129,8 +130,8 @@ def search_similar(query, vector_store, top_k=5):
 def query_llama(user_input, vector_store):
     try:
         # Retrieve most relevant chunks
-        top_chunks = search_similar(user_input, vector_store, top_k=5)
-
+        #top_chunks = search_similar(user_input, vector_store, top_k=5)
+        top_chunks = search_similar_faiss(user_input, vector_store, get_embedding, top_k=5)
         context = "\n".join([c["text"] for c in top_chunks])        
         #st.write("🔄 Sending request to Ollama...")
         response = ollama.chat(
@@ -201,7 +202,8 @@ if uploaded_files:
      # Build vector store from all chunks ONLY if not already built
     if "vector_store" not in st.session_state or not st.session_state["vector_store"]:
         with st.spinner("⚡ Generating embeddings for all chunks..."):
-            st.session_state["vector_store"] = build_vector_store(all_chunks)
+            #st.session_state["vector_store"] = build_vector_store(all_chunks)
+            st.session_state["vector_store"] = build_vector_store_faiss(all_chunks, get_embedding, dim=768)
         st.success("✅ Vector store created for all PDFs!")
 
     # Tabs
